@@ -122,30 +122,30 @@ class _LoginPageState extends State<LoginPage> {
                     minWidth: double.infinity,
                     child: RaisedButton(
                       onPressed: () {
-                        // this.doLogin();
-                        String usernames = txtUsername.text;
-                        String passwords = txtPassword.text;
-                        if (usernames == "admin" && passwords == "admin") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PageHome(
-                                  // nama: usernames,
-                                  // String password : passwords,
-                                )
-                              ));
-                          // Alert(
-                          //         context: context,
-                          //         title: "login berhasil",
-                          //         type: AlertType.success)
-                          //     .show();
-                        } else {
-                          // Alert(
-                          //         context: context,
-                          //         title: "login gagal",
-                          //         type: AlertType.error)
-                          //     .show();
-                        }
+                        this.doLogin();
+                        // String usernames = txtUsername.text;
+                        // String passwords = txtPassword.text;
+                        // if (usernames == "admin" && passwords == "admin") {
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => PageHome(
+                        //           // nama: usernames,
+                        //           // String password : passwords,
+                        //         )
+                        //       ));
+                        //   // Alert(
+                        //   //         context: context,
+                        //   //         title: "login berhasil",
+                        //   //         type: AlertType.success)
+                        //   //     .show();
+                        // } else {
+                        //   // Alert(
+                        //   //         context: context,
+                        //   //         title: "login gagal",
+                        //   //         type: AlertType.error)
+                        //   //     .show();
+                        // }
                       },
                       child:
                       Text("Login", style: TextStyle(color: Colors.white)),
@@ -157,28 +157,30 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+
+Future doLogin() async {
+  if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {
+    Alert(context: context, title: "data tidak benar", type: AlertType.error)
+        .show();
+    return;
+  }
+  var url = Uri.parse('http://server-api.domain.test/login');
+  final response = await http.post(url, body: {
+    'email': txtUsername.text,
+    'password': txtPassword.text,
+  }, headers: {
+    'Accept': 'application/json'
+  });
+  if ('email' == txtUsername) {
+    Alert(context: context, title: "login berhasil", type: AlertType.success)
+        .show();
+  } else {
+    Alert(context: context, title: "login gagal", type: AlertType.error)
+        .show();
+  }
 }
-// Future doLogin() async {
-//   if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {
-//     Alert(context: context, title: "data tidak benar", type: AlertType.error)
-//         .show();
-//     return;
-//   }
-//   var url = Uri.parse('http://demosanctum.test/api/login');
-//   final response = await http.post(url, body: {
-//     'email': txtUsername.text,
-//     'password': txtPassword.text,
-//   }, headers: {
-//     'Accept': 'application/json'
-//   });
-//   if ('email' == txtUsername) {
-//     Alert(context: context, title: "login berhasil", type: AlertType.success)
-//         .show();
-//   } else {
-//     Alert(context: context, title: "login gagal", type: AlertType.error)
-//         .show();
-//   }
-// }
+}
 
 // RaisedButton(
 //   shape: StadiumBorder(),
